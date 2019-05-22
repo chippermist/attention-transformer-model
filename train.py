@@ -79,7 +79,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             for j, b in enumerate(iter(tqdm(train))):
                 optimizer.zero_grad()
                 # print('\nreview is \n\n', b.review[0])
-                model_out = model(b.review[0].device(device))
+                model_out = model(b.review[0].to(device))
                 # calculate loss
                 # print('\nrating is \n\n', b.rating)
                 loss = criterion(model_out, b.rating.to(device))
@@ -125,4 +125,6 @@ if __name__ == "__main__":
                     dest="save_path",
                     help="The path to save the results")
     args = vars(ap.parse_args())
+    print("calling train")
     train(**args)
+    print("ending train")
