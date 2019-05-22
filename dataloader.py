@@ -60,6 +60,7 @@ def get_imdb(batch_size, max_length):
     print('train.fields', train.fields)
     print(type(train))
     print()
+    print('test.fields', test.fields)
     print('len(train)', len(train))
     print('len(test)', len(test))
     print("")
