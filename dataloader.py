@@ -45,8 +45,6 @@ def get_imdb(batch_size, max_length):
     # make splits for data
     # datasets
     # train, test = datasets.IMDB.splits(TEXT, LABEL)
-    # train = load_training_data()
-    # test = load_testing_data()
 
     tv_datafields = [ # we won't be needing the id, so we pass in None as the field
                  ("review", TEXT), ("rating", LABEL)
