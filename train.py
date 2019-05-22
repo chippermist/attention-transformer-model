@@ -78,10 +78,10 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             # train data has been spited many batch, tadm: print progress bar
             for j, b in enumerate(iter(tqdm(train))):
                 optimizer.zero_grad()
-                print('\nreview is \n\n', b.review[0])
+                # print('\nreview is \n\n', b.review[0])
                 model_out = model(b.review[0].to(device))
                 # calculate loss
-                print('\nrating is \n\n', b.rating)
+                # print('\nrating is \n\n', b.rating)
                 loss = criterion(model_out, b.rating.to(device))
                 loss.backward()
                 optimizer.step()
