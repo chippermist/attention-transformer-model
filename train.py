@@ -40,7 +40,7 @@ def val(model, test, vocab, device, epoch_num, path_saving):
     with torch.no_grad():
         correct = 0.0
         total = 0.0
-        for b, i in enumerate(tqdm(test)):
+        for b, i in enumerate(iter(tqdm(test))):
             if not vis is None:
                 visdom_windows = plot_weights(model, visdom_windows, b, vocab, vis)
             model_out = model(b.review[0].to(device)).to("cpu").numpy()
