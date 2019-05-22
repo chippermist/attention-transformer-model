@@ -74,7 +74,12 @@ def get_imdb(batch_size, max_length):
     print('TEXT.vocab.vectors.size()', TEXT.vocab.vectors.size())
 
     # make iterator for splits based on the batch_size
-    train_iter, test_iter = data.BucketIterator.splits((train, test), batch_size=batch_size, device=-1)
+    train_iter, test_iter = data.BucketIterator.splits(
+    (train, test),
+    sort_key = lambda x: len(x.review),
+    sort_within_batch = False,
+    batch_size=batch_size,
+    device=-1)
 
     return train_iter, test_iter, TEXT.vocab.vectors, TEXT.vocab
 
