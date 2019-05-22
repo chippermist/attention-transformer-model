@@ -126,6 +126,5 @@ if __name__ == "__main__":
                     help="The path to save the results")
     args = vars(ap.parse_args())
     print("calling train")
-    torch.device(device)
     train(**args)
     print("ending train")
