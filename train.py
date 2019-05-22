@@ -92,7 +92,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             print(loss_temp)
             # Validate on test-set every epoch
             if i % 5 == 0:
-                val_correct = val(model, train, vocab, device, i, save_path)
+                val_correct = val(model, test, vocab, device, i, save_path)
             if val_correct > best_correct:
                 best_correct = val_correct
                 best_model = model
