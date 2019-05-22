@@ -41,7 +41,7 @@ def val(model, test, vocab, device, epoch_num, path_saving):
         correct = 0.0
         total = 0.0
         print("TEST Type:", type(test))
-        for i, b in enumerate(test):
+        for j, b in enumerate(iter(tqdm(test))):
             if not vis is None:
                 visdom_windows = plot_weights(model, visdom_windows, b, vocab, vis)
             model_out = model(b.review[0].to(device)).to("cpu").numpy()
