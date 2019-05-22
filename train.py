@@ -65,7 +65,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
     # vocab: train data vocab
     train, test, vectors, vocab = get_imdb(batch_size, max_length=max_length)
     # creat the transformer net
-    torch.device("cuda")
+    torch.device(device)
     model = Net(model_size=model_size, embeddings=vectors, max_length=max_length, num_heads=num_heads,
                 num_blocks=num_blocks, dropout=dropout, train_word_embeddings=train_word_embeddings).to(device)
 
