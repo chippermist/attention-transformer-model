@@ -65,7 +65,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
     # vocab: train data vocab
     train, test, vectors, vocab = get_imdb(batch_size, max_length=max_length)
     # creat the transformer net
-    torch.device(device)
+    torch.device("cuda")
     model = Net(model_size=model_size, embeddings=vectors, max_length=max_length, num_heads=num_heads,
                 num_blocks=num_blocks, dropout=dropout, train_word_embeddings=train_word_embeddings).to(device)
 
@@ -80,10 +80,10 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             for j, b in enumerate(iter(tqdm(train))):
                 optimizer.zero_grad()
                 # print('\nreview is \n\n', b.review[0])
-                model_out = model(b.review[0])
+                model_out = model(b.review[0].to(device))
                 # calculate loss
                 # print('\nrating is \n\n', b.rating)
-                loss = criterion(model_out, b.rating)
+                loss = criterion(model_out, b.rating.to(device))
                 loss.backward()
                 optimizer.step()
                 loss_sum += loss.item()
