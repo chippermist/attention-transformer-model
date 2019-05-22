@@ -40,7 +40,7 @@ def val(model, test, vocab, device, epoch_num, path_saving):
     with torch.no_grad():
         correct = 0.0
         total = 0.0
-        for b, i in enumerate(tqdm(test)):
+        for i, b in enumerate(iter(tqdm(test))):
             if not vis is None:
                 visdom_windows = plot_weights(model, visdom_windows, b, vocab, vis)
             model_out = model(b.review[0].to(device)).to("cpu").numpy()
@@ -76,7 +76,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             loss_sum = 0.0
             model.train()
             # train data has been spited many batch, tadm: print progress bar
-            for b, j in enumerate(iter(tqdm(train))):
+            for j, b in enumerate(iter(tqdm(train))):
                 optimizer.zero_grad()
                 model_out = model(b.review[0].to(device))
                 # calculate loss
