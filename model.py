@@ -4,8 +4,6 @@ from torch.autograd import Variable
 
 from pos import get_pos_onehot
 
-torch.device(device)
-
 class MultiHeadAttention(nn.Module):
     """
         A multihead attention module,
