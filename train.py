@@ -81,7 +81,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
                 print('\nreview is \n\n', b.review[0])
                 model_out = model(b.review[0].to(device))
                 # calculate loss
-                print('\nrating is \n\n', b.rating[0])
+                print('\nrating is \n\n', b.rating)
                 loss = criterion(model_out, b.rating.to(device))
                 loss.backward()
                 optimizer.step()
