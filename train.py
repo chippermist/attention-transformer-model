@@ -2,7 +2,7 @@ import torch
 from torch import optim
 from torch import nn
 import time
-from dataloader import get_imdb
+from dataloader import get_data
 from model import Net
 
 try:
@@ -63,7 +63,7 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
     # test: test iterator
     # vectors: train data word vector
     # vocab: train data vocab
-    train, test, vectors, vocab = get_imdb(batch_size, max_length=max_length)
+    train, test, vectors, vocab = get_data(batch_size, max_length=max_length)
     # creat the transformer net
     torch.device(device)
     model = Net(model_size=model_size, embeddings=vectors, max_length=max_length, num_heads=num_heads,

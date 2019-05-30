@@ -1,5 +1,5 @@
 from torchtext import data
-from torchtext import datasets
+# from torchtext import datasets
 from torchtext.vocab import GloVe
 from torchtext.data import TabularDataset
 import string
@@ -26,7 +26,7 @@ def num2words(vocab, vec):
     return [vocab.itos[i] for i in vec]
 
 
-def get_imdb(batch_size, max_length):
+def get_data(batch_size, max_length):
     # Defines a datatype together with instructions for converting to Tensor.
     # lower: Whether to lowercase the text in this field. Default: False.
     # include_lengths: Whether to return a tuple of a padded minibatch and a list containing the lengths of each
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         by printing different values,
         and counting labels
     """
-    train, test, vectors, vocab = get_imdb(1, 50)
+    train, test, vectors, vocab = get_data(1, 50)
     from collections import Counter
 
     print(list(enumerate(vocab.itos[:100])))
