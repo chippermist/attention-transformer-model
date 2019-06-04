@@ -1,5 +1,5 @@
 import numpy as np
-from dataloader import get_imdb, num2words
+from dataloader import get_data, num2words
 
 
 def plot_weights(model, windows, b, vocab, vis):

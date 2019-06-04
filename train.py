@@ -2,7 +2,7 @@ import torch
 from torch import optim
 from torch import nn
 import time
-from dataloader import get_imdb
+from dataloader import get_data
 from model import Net
 
 try:
@@ -40,8 +40,8 @@ def val(model, test, vocab, device, epoch_num, path_saving):
     with torch.no_grad():
         correct = 0.0
         total = 0.0
-        for i, b in enumerate(test):
-            if not vis is None:
+        for i, b in enumerate(iter(test)):
+            if not vis is None and i == 0:
                 visdom_windows = plot_weights(model, visdom_windows, b, vocab, vis)
             model_out = model(b.review[0].to(device)).to("cpu").numpy()
             correct += (model_out.argmax(axis=1) == b.rating.numpy()).sum()
@@ -63,8 +63,9 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
     # test: test iterator
     # vectors: train data word vector
     # vocab: train data vocab
-    train, test, vectors, vocab = get_imdb(batch_size, max_length=max_length)
+    train, test, vectors, vocab = get_data(batch_size, max_length=max_length)
     # creat the transformer net
+    torch.device(device)
     model = Net(model_size=model_size, embeddings=vectors, max_length=max_length, num_heads=num_heads,
                 num_blocks=num_blocks, dropout=dropout, train_word_embeddings=train_word_embeddings).to(device)
 
@@ -78,8 +79,10 @@ def train(max_length, model_size, epochs, learning_rate, device, num_heads, num_
             # train data has been spited many batch, tadm: print progress bar
             for j, b in enumerate(iter(tqdm(train))):
                 optimizer.zero_grad()
+                # print('\nreview is \n\n', b.review[0])
                 model_out = model(b.review[0].to(device))
                 # calculate loss
+                # print('\nrating is \n\n', b.rating)
                 loss = criterion(model_out, b.rating.to(device))
                 loss.backward()
                 optimizer.step()
@@ -123,4 +126,6 @@ if __name__ == "__main__":
                     dest="save_path",
                     help="The path to save the results")
     args = vars(ap.parse_args())
+    print("calling train")
     train(**args)
+    print("ending train")
