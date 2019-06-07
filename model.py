@@ -17,7 +17,6 @@ class MultiHeadAttention(nn.Module):
         self.num_heads = num_heads
 
         self.head_size = int(self.hidden_size / num_heads)
-        # 加权求和
         self.q_linear = nn.Linear(self.input_size, self.hidden_size)
         self.k_linear = nn.Linear(self.input_size, self.hidden_size)
         self.v_linear = nn.Linear(self.input_size, self.hidden_size)
@@ -38,7 +37,7 @@ class MultiHeadAttention(nn.Module):
 
         # weight values by their corresponding attention weights
         weighted_v = torch.matmul(weights, v_proj)
-        # contiguous():返回一个内存连续的有相同数据的tensor，如果原tensor内存连续则返回原tensor
+        # contiguous()
         weighted_v = weighted_v.transpose(1, 2).contiguous()
 
         # do a linear projection of the weighted sums of values
@@ -122,18 +121,18 @@ class Net(nn.Module):
         self.model_size = model_size
         # Applies a linear transformation to the incoming data: :math:`y = xA^T + b`
         # outputsize=[embedding.size(1), self.model_size]
-        # embedding加权求和
+        # embedding
         self.emb_ff = nn.Linear(embeddings.size(1), self.model_size)
         self.pos = nn.Linear(max_length, self.model_size)
         self.max_length = max_length
         self.transformer = Transformer(self.model_size, self.model_size, self.model_size, num_blocks, num_heads,
                                        dropout=dropout)
         # 2: biclass
-        self.output = nn.Linear(self.model_size, 3) # originally 2 classes -- for UCI it's 3
+        self.output = nn.Linear(self.model_size, 2) # originally 2 classes -- for UCI it's 3
 
     def forward(self, x):
         x_size = x.size()
-        x = x.view(-1)  # x.view(-1)将x展为一行
+        x = x.view(-1)  # x.view(-1)
         x = self.emb_ff(self.embeddings(x))
         pos = self.pos(get_pos_onehot(self.max_length).to(x)).unsqueeze(0)
         x = x.view(*(x_size + (self.model_size,)))
