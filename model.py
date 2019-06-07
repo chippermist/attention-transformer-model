@@ -130,7 +130,7 @@ class Net(nn.Module):
         self.transformer = Transformer(self.model_size, self.model_size, self.model_size, num_blocks, num_heads,
                                        dropout=dropout)
         # 2: biclass
-        self.output = nn.Linear(self.model_size, 3) # originally 2 classes -- for UCI it's 3
+        self.output = nn.Linear(self.model_size, 2) # originally 2 classes -- for UCI it's 3
 
     def forward(self, x):
         x_size = x.size()
